@@ -50,7 +50,7 @@ export default {
         }
 
       } catch (error) {
-        console.error('Erro inesperado ao acessar o carrinho:', error.message);
+        this.$router.push({ name: 'CarrinhoPage' });
       }
     },
     showSnackbar() {

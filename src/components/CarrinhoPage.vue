@@ -35,7 +35,7 @@
                 <p class="total-price">Total: R$ {{ totalPrice.toFixed(2).replace('.', ',') }}</p>
             </div>
         </div>
-        <div v-if="snackbarMessage" class="snackbar">{{ snackbarMessage }}</div>
+        <div :class="['snackbar', { show: snackbarVisible }]">{{ snackbarMessage }}</div>
     </div>
 </template>
 
@@ -49,6 +49,7 @@ export default {
             cartItems: [],
             isLoggedIn: false,
             snackbarMessage: '',
+            snackbarVisible: false,
         };
     },
     computed: {
@@ -113,7 +114,7 @@ export default {
                 try {
                     await CartService.updateProductQuantity(cartId, productId, item.quantity - 1);
                     item.quantity--;
-                    this.snackbarMessage = 'Quantidade diminuída!';
+                    this.snackbarMessage = 'Produto removido!';
                     this.showSnackbar();
                 } catch (error) {
                     console.error('Erro ao atualizar quantidade:', error.message);
@@ -130,10 +131,8 @@ export default {
             const productId = item.product.id;
 
             try {
-
                 await CartService.updateProductQuantity(cartId, productId, item.quantity + 1);
                 item.quantity++;
-
 
                 this.snackbarMessage = 'Produto adicionado!';
                 this.showSnackbar();
@@ -144,14 +143,12 @@ export default {
         },
 
         showSnackbar() {
-            const snackbar = document.querySelector('.snackbar');
-            snackbar.classList.add('show');
-
+            console.log('aqui');
+            this.snackbarVisible = true; 
             setTimeout(() => {
-                snackbar.classList.remove('show');
-                this.snackbarMessage = '';
+                this.snackbarVisible = false; 
             }, 3000);
-        }
+        },
     }
 };
 </script>
@@ -170,7 +167,7 @@ export default {
 }
 
 .cart-container {
-    padding: 50px 50px 50px 50px;
+    padding: 50px 20px 50px 80px;
     display: flex;
     flex-direction: column;
 }
@@ -270,21 +267,21 @@ export default {
 }
 
 .snackbar {
-    position: fixed;
-    bottom: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    background-color: #ff8c00;
-    color: white;
-    padding: 16px;
-    border-radius: 5px;
-    visibility: hidden;
-    opacity: 0;
-    transition: opacity 0.5s ease, visibility 0.5s ease;
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #ff8c00;
+  color:white;
+  padding: 16px;
+  border-radius: 5px;
+  transition: opacity 0.5s ease, visibility 0.5s ease;
+  opacity: 0;
+  visibility: hidden;
 }
 
 .snackbar.show {
-    visibility: visible;
-    opacity: 1;
+  visibility: visible; 
+  opacity: 1; 
 }
 </style>

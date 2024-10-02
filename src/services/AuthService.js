@@ -2,15 +2,13 @@ import axios from './AxiosConfig';
 
 class AuthService {
 
-
     async login(email, password) {
         try {
             const response = await axios.post('/login', { email, password });
-            console.log(response.data);
-            const token = response.data; // Verifique se a estrutura da resposta é correta
+            const token = response.data; 
             if (token) {
-                localStorage.setItem('authToken', token); // Salva o token no localStorage
-                return token; // Opcional: retorna o token
+                localStorage.setItem('authToken', token); 
+                return token; 
             } else {
                 throw new Error('Token não encontrado na resposta.');
             }
@@ -55,7 +53,6 @@ class AuthService {
         }
 
         const payload = JSON.parse(atob(token.split('.')[1]));
-        console.log("payload ID:", payload.id);
 
         const currentTime = Math.floor(Date.now() / 1000);
         if (payload.exp < currentTime) {
@@ -97,6 +94,7 @@ class AuthService {
             throw error;
         }
     }
+   
 }
 
 export default new AuthService();

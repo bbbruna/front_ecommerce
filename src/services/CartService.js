@@ -8,8 +8,6 @@ const CartService = {
             return { success: false, message: 'Token não encontrado. Faça login novamente.' };
         }
 
-        console.log(token)
-
         try {
             const response = await axios.get(`/cart/user/${userId}`, {
                 headers: {
@@ -17,11 +15,8 @@ const CartService = {
                 }
             });
 
-            console.log('Resposta completa:', response.data); // Inspecione a resposta
-
-            // Acesse os itens e a status do carrinho
             if (response.data) {
-                const items = response.data.items || []; // Garante que items seja um array
+                const items = response.data.items || []; 
 
                 return {
                     success: true,
@@ -29,7 +24,7 @@ const CartService = {
                         id: response.data.id,
                         items: items,
                         status: response.data.status,
-                        totalQuantity: response.data.totalQuantity || 0 // Garante que seja um número
+                        totalQuantity: response.data.totalQuantity || 0 
                     }
                 };
             }
@@ -52,9 +47,6 @@ const CartService = {
     async ensureCartExists(userId) {
         const responseCart = await this.getCart(userId);
 
-        console.log("uisdhfsd ui", responseCart);
-
-        // Se o carrinho não existir ou não estiver ativo, crie um novo
         if (!responseCart.success || (responseCart.data && responseCart.data.status !== 'ACTIVE')) {
             const response = await this.createCart(userId);
             return {
@@ -98,8 +90,6 @@ const CartService = {
             return; 
         }
     
-        console.log(cartId);
-    
         try {
             const response = await axios.post(`/cart/${cartId}/items/${productId}?quantity=${quantity}`, {
                 headers: {
@@ -140,7 +130,7 @@ const CartService = {
             });
     
             if (response.status === 204) {
-                return { success: true }; // Retorne um objeto indicando sucesso
+                return { success: true };
             }
     
             throw new Error('Erro ao remover produto do carrinho.');
