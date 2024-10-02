@@ -66,7 +66,7 @@ export default {
       isSubmitting: false,
       snackbarMessage: '',
       isLoggedIn: false,
-      showPassword: false, // Adicione esta linha
+      showPassword: false,
     };
   },
   async created() {
@@ -110,7 +110,7 @@ export default {
       }
     },
     togglePasswordVisibility() {
-      this.showPassword = !this.showPassword; // Alterna a visibilidade da senha
+      this.showPassword = !this.showPassword;
     },
     showSnackbar() {
       setTimeout(() => {
